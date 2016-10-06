@@ -9,8 +9,8 @@ import android.widget.Toast;
 public class MainCalculadora extends AppCompatActivity {
 
     String strOperacion, strSigno;
-    boolean hayOperacion, ultimoPulsadoEsSigno, finCalc, strSignoInicializado, memoriaVacia;
-    float operacion, ultimoNum, memoria;
+    boolean hayOperacion, ultimoPulsadoEsSigno, finCalc, memoriaVacia, siguienteSet;
+    float ultimoNum, memoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class MainCalculadora extends AppCompatActivity {
         setTextCalculadora("0");
         strOperacion="";
         memoriaVacia=true;
-        hayOperacion=ultimoPulsadoEsSigno=finCalc=strSignoInicializado=false; //finCalc se usa cuando se pulsa el boton =
+        hayOperacion=ultimoPulsadoEsSigno=finCalc=siguienteSet=false; //finCalc se usa cuando se pulsa el boton =
     }
 
     public void pNumeros (View view){
@@ -30,11 +30,34 @@ public class MainCalculadora extends AppCompatActivity {
         if(pulsado.equals(".") && getTextCalculadora().equals("0")){
             pulsado="0.";
         }
-        if(getTextCalculadora().equals("0") || finCalc || ultimoPulsadoEsSigno){
+        if(getTextCalculadora().equals("0") || finCalc || ultimoPulsadoEsSigno || siguienteSet){
             setTextCalculadora(pulsado);
         } else {
             appendCalculadora(pulsado);
         }
+        ultimoPulsadoEsSigno=finCalc=siguienteSet=false;
+    }
+
+    public void pNumeros (float numero){
+        setTextCalculadora(""+numero);
+        siguienteSet=true;
+        ultimoPulsadoEsSigno=finCalc=false;
+    }
+
+    public void pAngulo (View view){
+        //Guarda el numero pulsado en str
+        String pulsado = getPulsado(view);
+        float numero = Float.parseFloat(getTextCalculadora());
+        //Si se pulsa el bt= vacia el tv de arriba, elimina la operacion y pon que el ultimo numero es 0
+        //Mira si en el textview hay algo escrito, si es solo un 0 lo sustituye por el numero, si hay mas cosas añade el numero al texto del tv
+        float calculo=0;
+        switch (pulsado){
+            case "SEN": calculo=(float)Math.sin(numero);break;
+            case "COS": calculo=(float)Math.cos(numero);break;
+            case "TAN": calculo=(float)Math.tan(numero);break;
+        }
+        pNumeros(calculo);
+
         ultimoPulsadoEsSigno=finCalc=false;
     }
     
