@@ -20,7 +20,7 @@ public class MainCalculadora extends AppCompatActivity {
         strOperacion="";
         memoriaVacia=true;
         hayOperacion=ultimoPulsadoEsSigno=finCalc=siguienteSet=false; //finCalc se usa cuando se pulsa el boton =
-    }
+    } //coment
 
     public void pNumeros (View view){
         //Guarda el numero pulsado en str
